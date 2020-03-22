@@ -13,4 +13,7 @@ drun:
 dkill:
 	docker kill `docker ps -q`
 
-.PHONY: test launch dbuild drun dkill
+reqexport:
+	poetry export -f requirements.txt --without-hashes > requirements.txt
+
+.PHONY: test launch dbuild drun dkill reqexport
