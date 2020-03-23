@@ -13,4 +13,5 @@ jobs:
         sudo apt-get install make
     - name: deploy
       run: |
-        make test
+        # test build
+        make dbuild
