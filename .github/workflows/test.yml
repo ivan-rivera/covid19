@@ -12,6 +12,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install make
         sudo apt-get install -y apt-utils
-    - name: tet build
+    - name: test build
       run: |
+        ls
         make dbuild
