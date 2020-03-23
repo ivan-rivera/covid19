@@ -18,4 +18,4 @@ jobs:
     - name: run tests
       run: |
         # test build
-        python3 -m pytet
+        python3 -m pytest
