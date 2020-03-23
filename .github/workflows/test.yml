@@ -14,5 +14,4 @@ jobs:
         sudo apt-get install -y apt-utils
     - name: test build
       run: |
-        ls
         make dbuild
