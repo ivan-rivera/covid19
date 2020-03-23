@@ -5,12 +5,12 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-      steps:
-          - uses: actions/checkout@v2
-            - name: install dependencies
-              run: |
-                sudo apt-get update
-                sudo apt-get install make
-            - name: deploy
-              run: |
-                make test
+    steps:
+        - uses: actions/checkout@v2
+          - name: install dependencies
+            run: |
+              sudo apt-get update
+              sudo apt-get install make
+          - name: deploy
+            run: |
+              make test
