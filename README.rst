@@ -10,11 +10,11 @@ Please feel free to create issues (you can also see my todo list there) or PRs i
 
 ..
     TODO:
-    - Get Heroku app working
-    - Set up CDP in Heroku
-    - set up git hooks (req export)
+    - Set up CI in Heroku
+    - set up git hooks (black)
     - set branch protection (+ zappr, black)
     - set up repo following guide (check formatted repo)
     - Find Dash tutorial + HTML injection
     - Compile ideas (spread inflection + forecast, finance, travel + other ideas)
     - Find APIs
+    - Dash tutorial: https://towardsdatascience.com/how-to-build-a-complex-reporting-dashboard-using-dash-and-plotl-4f4257c18a7f

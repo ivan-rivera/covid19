@@ -1,4 +1,4 @@
-import os
+from decouple import config
 from flask import Flask
 app = Flask(__name__)
 
@@ -9,5 +9,5 @@ def hello():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8000))
-    app.run(host="0.0.0.0", port=port)
+    PORT = config("PORT", default=8000, cast=int)
+    app.run(host="0.0.0.0", port=PORT)
