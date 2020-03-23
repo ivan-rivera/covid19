@@ -1,0 +1,24 @@
+name: Deploy to Heroku
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install dependencies
+      run: |
+        apt-get update
+        apt-get install make
+        apt-get install curl
+        curl https://cli-assets.heroku.com/install.sh | sh
+    - name: deploy
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_TOKEN }}
+        HEROKU_APP_NAME: "covid-monitor"
+      run: |
+        apt-get update && apt-get install make
+    - name: Deploy to Heroku
+      run: |
+        make hpr
