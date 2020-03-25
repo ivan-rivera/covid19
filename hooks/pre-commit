@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "executing pre-commit hook"
+
+REPO_ROOT_DIR="$(git rev-parse --show-toplevel)"
+
+files=$(git diff --cached --name-only --diff-filter=ACMR | grep -Ei "\.py$" || true)
+
+if [[ ! -z "${files}" ]]; then
+    files_list=$(echo "$files" | paste -s -d " " -)
+    black ${files_list}
+    git add ${files_list}
+fi
