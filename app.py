@@ -10,6 +10,5 @@ def hello():
 
 if __name__ == '__main__':
     PORT = config(
-        "PORT",
-        default=8000, cast=int)
+        "PORT", default=8000, cast=int)
     app.run(host="0.0.0.0", port=PORT)
