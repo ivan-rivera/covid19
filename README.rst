@@ -10,7 +10,6 @@ Please feel free to create issues (you can also see my todo list there) or PRs i
 
 ..
     TODO:
-    - Set up CI in Heroku
     - set up git hooks (black)
     - set branch protection (+ zappr, black)
     - set up repo following guide (check formatted repo)
