@@ -12,8 +12,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install make
         sudo apt-get install -y apt-utils
-        pip3 install black
     - name: test build
       run: |
-        black --check .
         make dbuild
