@@ -3,6 +3,7 @@ pname=covid19
 duser=n3v3r
 
 test:
+	flake8 .
 	python3 -m pytest
 
 launch:
