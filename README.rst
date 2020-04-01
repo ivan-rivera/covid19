@@ -23,7 +23,16 @@ Ideas to implement:
 
 
 Resources:
-    - [COVID API](https://covidapi.info/)
+    - `JHU COVID API <https://covidapi.info/>`_ and `Pomber API <https://github.com/pomber/covid19>`_
+
+..
+    Setup Notes:
+    - run `cp hooks/pre-commit .git/hooks/`
+    - run `chmod +x .git/hooks/pre-commit`
+
+..
+    References:
+    - favicon: https://favicon.io/emoji-favicons/biohazard/
 
 ..
     TODO:
@@ -32,13 +41,10 @@ Resources:
     - Find Dash tutorial + HTML/CSS/JS injection
     - Look to add the following into the project:
         - asyncio
-        - pathlib
-        - typing
-        - logging
+        - pathlib X
+        - typing X
+        - logging X
+        - caching X
+        - data classes
     - Review resources
         - Dash tutorial: https://towardsdatascience.com/how-to-build-a-complex-reporting-dashboard-using-dash-and-plotl-4f4257c18a7f
-
-    A few setup notes:
-        - Quandl API key: joNDF2aQJj3Re3DoM-fK
-        - run `cp hooks/pre-commit .git/hooks/`
-        - run `chmod +x .git/hooks/pre-commit`

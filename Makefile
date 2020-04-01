@@ -7,7 +7,10 @@ test:
 	python3 -m pytest
 
 launch:
-	gunicorn app:app
+	gunicorn app:server
+
+devlaunch:
+	python app.py
 
 dbuild:
 	docker build -t $(duser)/$(pname) .

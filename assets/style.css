@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Sen:400');
+:root {
+    --bg-colour: #101224;
+    --text-colour: darkgrey;
+}
+
+html, body {
+    font-family: "Sen", serif;
+    background-color: var(--bg-colour);
+    color: var(--text-colour)
+}
+
+.title {
+    font-size: 48px;
+    text-align: center;
+}
+
+.desc {
+    font-size: 18px;
+}
+
+.left_plot {
+    float: left;
+    width: 50%;
+}
+
+.right_plot {
+    float: right;
+    width: 50%;
+}
+
+.modebar{
+      display: none !important;
+}
