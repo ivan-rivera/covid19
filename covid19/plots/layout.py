@@ -1,4 +1,4 @@
-"""Plot layout settings"""
+"""Plot layout settings. _layout variables are consumed by plotly Figure objects"""
 
 from dataclasses import dataclass
 
@@ -35,7 +35,7 @@ global_layout = {
     "margin": {"r": 0, "l": 0},
 }
 
-line_style = {
+line_style_layout = {
     "color": "darkgray",
     "width": styles.default.line_width
 }

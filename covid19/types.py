@@ -1,9 +1,11 @@
 """Type definitions"""
 
 from enum import Enum
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 
 Infections = Dict[str, List[Dict[str, Union[str, int]]]]
+
+HoverData = Optional[Dict[str, List[Dict[str, Union[int, str]]]]]
 
 
 class InfectionStatus(Enum):
