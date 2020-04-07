@@ -1,34 +1,36 @@
 """Visualizations of infection data"""
 
+import numpy as np
 import plotly.graph_objects as go
 
-from covid19.data import get_filtered_infection_data
+from covid19.data import filter_infection_data
 from covid19.plots.layout import global_layout, line_style_layout
 from covid19.stats import fit_infection_trend
-from covid19.types import InfectionStatus
-from covid19.utils import to_date
+from covid19.types import Infections
+from covid19.utils import to_date, translate_countries
 
 
 # todo: review settings and move stuff into configs
 
 
-def plot_infection_curve() -> go.Figure:
+def plot_infection_curve(infection_data: Infections, kind: str = "confirmed") -> go.Figure:
     """
     Plot global infection curves by country
+    :param infection_data: a dictionary with the infection data
+    :param kind: either confirmed or deaths -- used to select metric
     :return: Figure object with the infection plot
     """
 
-    infection_data = get_filtered_infection_data()
     figure = go.Figure()
     plot_layout = {
-        "title": {"text": "Infection Curves By Country"},
+        "title": {"text": "Infection Curves By Country", "x": 0.1, "y": 0.95, "font": {"size": 16}},
         "xaxis": {"title": "Date", "linecolor": "rgba(0,0,0,0)"},
-        "yaxis": {"title": "Count of Infections"},
+        "yaxis": {"title": "Count"},
     }
 
     for country, content in infection_data.items():
         dates = [to_date(day["date"]) for day in content]
-        counts = [day["confirmed"] for day in content]
+        counts = [day[kind] for day in content]
         if counts:
             lines = go.Scatter(
                 x=dates,
@@ -54,30 +56,41 @@ def plot_infection_curve() -> go.Figure:
     return figure
 
 
-def plot_infection_trends(infection_threshold: int = 100) -> go.Figure:
+def plot_infection_trends(
+        infection_data: Infections,
+        kind: str = "confirmed",
+        min_cases: int = 100
+) -> go.Figure:
     """
     Plot infection trends since hitting the threshold number of infections
-    :param infection_threshold: minimum number of infections to consider
+    :param infection_data: a dictionary with the infection data
+    :param kind: either confirmed or deaths -- used to select metric
+    :param min_cases: min number of cases needed to be plotted
     :return: a figure object
     """
+    anchor_country = "Italy"  # used to set limit the number of days since beginning
     exclude_countries = [
-        "China",
         "Diamond Princess"
     ]
-    infection_data = get_filtered_infection_data(min_confirmed=infection_threshold)
-    global_days, trend = fit_infection_trend(InfectionStatus.CONFIRMED, infection_data)
+
+    # filter cases
+    filtered_infection_data = filter_infection_data(infection_data, kind=kind)
+    global_days, trend = fit_infection_trend(kind, filtered_infection_data)
+
+    day_limit = len(filtered_infection_data[anchor_country])
 
     figure = go.Figure()
     plot_layout = {
-        "title": {"text": f"Days since reaching {infection_threshold} infections vs Log-scale Infection Counts"},
-        "xaxis": {"title": f"Days since reaching {infection_threshold} infections"},
-        "yaxis": {"title": "Count of Infections", "linecolor": "rgba(0,0,0,0)"},
-        "yaxis_type": "log"
+        "title": {"text": f"Days since reaching {min_cases} cases vs Log-scale counts",
+                  "x": 0.1, "y": 1, "font": {"size": 16}},
+        "xaxis": {"title": f"Days since reaching {min_cases} infections", "range": [0, day_limit]},
+        "yaxis": {"title": "Count", "linecolor": "rgba(0,0,0,0)"},
+        "yaxis_type": "log",
     }
 
-    for country, content in infection_data.items():
+    for country, content in filtered_infection_data.items():
         if country not in exclude_countries:
-            counts = [day["confirmed"] for day in content]
+            counts = [day[kind] for day in content]
             days = [day for day in range(len(counts))]
             if counts:
                 lines = go.Scatter(
@@ -116,20 +129,26 @@ def plot_infection_trends(infection_threshold: int = 100) -> go.Figure:
     return figure
 
 
-def plot_infected_countries(top_n: int = 10) -> go.Figure:
+def plot_infected_countries(infection_data: Infections, kind: str = "confirmed", top_n: int = 20) -> go.Figure:
+    """
+    Plot a barchart of top N countries with registered infections
+    :param infection_data: a dictionary with the infection data
+    :param kind: either confirmed or deaths -- used to select metric
+    :param top_n: top N number of countries to plot
+    :return: a plotly figure object
+    """
 
     plot_layout = {
-        "title": {"text": f"Top {top_n} Countries"},
-        "xaxis": {"title": "Cases", "linecolor": "rgba(0,0,0,0)"},
+        "title": {"text": f"Top {top_n} Countries", "x": 0.1, "y": 0.95, "font": {"size": 16}},
+        "xaxis": {"title": "", "linecolor": "rgba(0,0,0,0)"},
         "yaxis": {"title": ""},
     }
 
-    def sort_countries(data: dict, ascending: bool = True, by: str = "confirmed") -> list:
+    def sort_countries(data: dict, ascending: bool = True) -> list:
         """Support function for country sorting"""
         order = 1 if ascending else -1
-        return sorted(data.items(), key=lambda item: order * item[1][by])
+        return sorted(data.items(), key=lambda item: order * item[1][kind])
 
-    infection_data = get_filtered_infection_data()
     latest_data = {country: {"confirmed": content[-1]["confirmed"],
                              "deaths": content[-1]["deaths"]}
                    for country, content in infection_data.items()
@@ -138,26 +157,77 @@ def plot_infected_countries(top_n: int = 10) -> go.Figure:
     top_countries = dict(sort_countries(latest_data, False)[0:top_n])
     sorted_countries = dict(sort_countries(top_countries))
 
-    cases = [v["confirmed"] for v in sorted_countries.values()]
+    cases = [v[kind] for v in sorted_countries.values()]
     mortality = [v["deaths"]/v["confirmed"] for v in sorted_countries.values()]
     countries = list(sorted_countries.keys())
 
     bar = go.Bar(
-        x=cases,
-        y=countries,
+        x=countries,
+        y=cases,
         text=mortality,
-        orientation="h",
         showlegend=False,
         marker={"color": "darkgray"},
         hovertemplate=
-        "<span style='color:black;font-size:20px'><b>%{y}</b></span><br><br>" +
-        "Cases: %{x}<br>" +
+        "<span style='color:black;font-size:20px'><b>%{x}</b></span><br><br>" +
+        "Cases: %{y}<br>" +
         "Mortality rate: %{text:.2%}" +
         "<extra></extra>"
     )
 
     figure = go.Figure()
     figure.add_trace(bar)
+    figure.update_layout(global_layout)
+    figure.update_layout(plot_layout)
+
+    return figure
+
+
+def plot_infection_map(infection_data: Infections, kind: str = "confirmed") -> go.Figure:
+    """
+    Generate a choropleth map of infections by country
+    :param infection_data: a dictionary with the infection data
+    :param kind: either confirmed or deaths -- used to select metric
+    :return: a Plotly figure object
+    """
+
+    plot_layout = {
+        "geo": {
+            "projection_type": "natural earth",
+            "visible": False,
+            "resolution": 110,
+            "showcountries": True,
+            "countrycolor": "darkgrey",
+            "lataxis": {"range": [-55, 80]}
+        },
+        "dragmode": False,
+        "margin": {"t": 0, "b": 0},
+    }
+
+    map_data = {country: content[-1][kind]
+                for country, content in infection_data.items()
+                if content}
+
+    translated_map_data = translate_countries(map_data)
+
+    countries = [c for c in translated_map_data.keys()]
+    infections = [i for i in translated_map_data.values()]
+
+    world_map = go.Choropleth(
+        locations=countries,
+        z=np.log10([i+1 for i in infections]),
+        text=countries,
+        hovertext=infections,
+        locationmode="country names",
+        showscale=False,
+        colorscale="Greys",
+        hovertemplate=
+        "<span style='color:darkgrey;font-size:20px'><b>%{location}</b></span><br>" +
+        "Cases: %{hovertext:,}" +
+        "<extra></extra>"
+    )
+
+    figure = go.Figure()
+    figure.add_trace(world_map)
     figure.update_layout(global_layout)
     figure.update_layout(plot_layout)
 

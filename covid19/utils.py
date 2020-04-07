@@ -1,5 +1,5 @@
 """Helper utilities"""
-
+from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Union
@@ -35,3 +35,29 @@ def to_date(date_str: str) -> datetime:
     :return: datetime
     """
     return datetime.strptime(date_str, "%Y-%m-%d")
+
+
+def translate_countries(countries: Dict[str, int]) -> Dict[str, int]:
+    """
+    Convert inconsistent country names into the format recognized by Plotly Choropleth
+    :param countries: a dictionary with countries and counts
+    :return: updated dictionary with countries and counts
+    """
+    modified_countries = deepcopy(countries)
+    country_mapping = {
+        "DRC": ["Congo (Brazzaville)", "Congo (Kinshasa)"],
+        "Czech Republic": ["Czechia"],
+        "Macedonia": ["North Macedonia"],
+        "Myanmar": ["Burma"],
+        "Taiwan": ["Taiwan*"],
+        "Ivory Coast": ["Cote d'Ivoire"],
+    }
+    for country, content in country_mapping.items():
+        modified = {country: sum([modified_countries[lookup]
+                                  for lookup in content
+                                  if lookup in modified_countries])}
+        modified_countries.update(modified)
+        for lookup in content:
+            if lookup in modified_countries:
+                del modified_countries[lookup]
+    return modified_countries

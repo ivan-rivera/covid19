@@ -29,6 +29,8 @@ Resources:
     Setup Notes:
     - run `cp hooks/pre-commit .git/hooks/`
     - run `chmod +x .git/hooks/pre-commit`
+    - After creating a new ENV switch to it via `poetry shell`
+    - To install jupyter on this env use `python -m ipykernel install --name=myvenv`
 
 ..
     References:
