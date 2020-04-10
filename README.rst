@@ -7,7 +7,7 @@ A tiny Heroku app that visualizes the spread of COVID-19 throughout the world. T
 
 Here is a screenshot of the app.
 
-.. image:: resources/screenshot.png
+.. image:: https://i.imgur.com/zziqWe9.png
 
 
 ..
