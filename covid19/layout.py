@@ -100,7 +100,7 @@ map_hover_template = (
 def trace_hover_template(country: str) -> str:
     """Generate text for a traces corresponding to specific countries"""
     return (f"<span style='color:{styles.default.background_color};" +
-            "font-size:20px'><b>{country}</b></span><br><br>" +
+            f"font-size:20px'><b>{country}</b></span><br><br>" +
             "Date: %{x}<br>" +
             "Cases: %{y:,}" +
             "<extra></extra>")

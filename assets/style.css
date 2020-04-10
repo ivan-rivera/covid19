@@ -60,6 +60,14 @@ a {
     font-size: 22px;
 }
 
+.mini_container {
+    width: 20%;
+    height: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    display: inline-table;
+}
+
 .modebar{
       display: none !important;
 }
@@ -69,7 +77,10 @@ g.layer.bg > rect {
 }
 
 .stat_panel {
-    display: grid;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    display: inline-block;
     grid-template-columns: repeat(5, 1fr);
     border-bottom-width: 2px;
     border-bottom-color: var(--base);
@@ -77,8 +88,8 @@ g.layer.bg > rect {
     border-top-width: 2px;
     border-top-color: var(--base);
     border-top-style: solid;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    /*padding-top: 0.5em;*/
+    /*padding-bottom: 0.5em;*/
     text-align: center;
 }
 

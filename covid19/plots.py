@@ -98,8 +98,8 @@ def plot_infected_countries(
     """
     plot_layout = {
         "title": {"text": f"Top {top_n} Countries"},
-        "xaxis": {"title": ""},
-        "yaxis": {"title": ""},
+        "xaxis": {"title": "", "tickangle": 30, "tickfont": {"size": 8}},
+        "yaxis": {"title": "Cases"},
     }
 
     def sort_countries(data: dict, ascending: bool = True) -> list:
@@ -115,7 +115,7 @@ def plot_infected_countries(
     top_countries = dict(sort_countries(latest_data, False)[0:top_n])
     sorted_countries = dict(sort_countries(top_countries))
     cases = [v[kind] for v in sorted_countries.values()]
-    mortality = [v[InfectionStatus.DEATHS]/v[InfectionStatus.DEATHS]
+    mortality = [v[InfectionStatus.DEATHS]/v[InfectionStatus.CONFIRMED]
                  for v in sorted_countries.values()]
     countries = list(sorted_countries.keys())
     bar = go.Bar(x=countries, y=cases, text=mortality, showlegend=False,
