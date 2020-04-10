@@ -2,28 +2,13 @@
 COVID-19 Monitor
 ******************
 
-NOTE: this project is currently under construction.
 
-This application aims to explore the effects of the COVID-19 pandemic. The app is available `here <https://covid-monitor.herokuapp.com/>`_.
+A tiny Heroku app that visualizes the spread of COVID-19 throughout the world. The app is available `here <https://covid-monitor.herokuapp.com/>`_.
 
+Here is a screenshot of the app.
 
-Ideas to implement:
-    - Infection spread
-        - filled world map based on number of infections and deaths (2 modes) (+ time lapse)
-        - Time series of infections and deaths
-        - Time series of gradients (indicate inflection point)
-    - Financial impact
-        - Foreign Exchange
-        -
-    - Travel
-        - ???
-    - In the media
-        - Most liked tweets
-        - Related Terms
+.. image:: resources/screenshot.png
 
-
-Resources:
-    - `JHU COVID API <https://covidapi.info/>`_ and `Pomber API <https://github.com/pomber/covid19>`_
 
 ..
     Setup Notes:

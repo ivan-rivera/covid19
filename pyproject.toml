@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "covid19"
-version = "0.1.0"
+version = "1.0.0"
 description = "COVID-19 exploratory dashboard"
 authors = ["Ivan Rivera <ivan.s.rivera@gmail.com>"]
 

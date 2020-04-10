@@ -76,6 +76,6 @@ def extract_css_variables() -> Dict[str, str]:
         for line in css.readlines():
             if re.match(variable_pattern, line):
                 variable, value = re.sub(r"\s|--|;", "", line).split(":")
-                css_styles[variable] = value
+                css_styles[variable] = value.replace('"', "")
     logger.debug(f"The following CSS variables were identified: {css_styles}")
     return css_styles
