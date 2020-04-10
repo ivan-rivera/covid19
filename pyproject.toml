@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "covid19"
-version = "0.1.0"
+version = "1.0.0"
 description = "COVID-19 exploratory dashboard"
 authors = ["Ivan Rivera <ivan.s.rivera@gmail.com>"]
 
@@ -11,6 +11,14 @@ gunicorn = "^20.0.4"
 python-decouple = "^3.3"
 pytest = "^5.4.1"
 black = "^19.10b0"
+flake8 = "^3.7.9"
+requests = "^2.23.0"
+pyyaml = "^5.3.1"
+cachetools = "^4.0.0"
+dash = "^1.9.1"
+plotly = "^4.5.4"
+pandas = "^1.0.3"
+sklearn = "^0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
