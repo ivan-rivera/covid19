@@ -96,14 +96,14 @@ g.layer.bg > rect {
 
 .left_side {
     float: left;
-    height: 600px;
+    height: 550px;
     width: 55%;
     padding-left: 1em;
 }
 
 .right_side {
     float: right;
-    height: 600px;
+    height: 550px;
     width: 40%;
     padding-right: 1em;
 }
