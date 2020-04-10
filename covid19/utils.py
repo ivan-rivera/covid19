@@ -1,10 +1,14 @@
 """Helper utilities"""
+import re
 from copy import deepcopy
 from datetime import datetime
+from logging import getLogger
 from pathlib import Path
 from typing import Dict, Union
 
 import yaml
+
+logger = getLogger(__name__)
 
 
 def get_app_dir() -> Path:
@@ -25,6 +29,7 @@ def read_config() -> Dict[str, Dict[str, Union[str, int, float]]]:
     config_path = app_dir / "config.yaml"
     with open(str(config_path)) as stream:
         config = yaml.safe_load(stream)
+    logger.debug(f"config file loaded with the following content: {config}")
     return config
 
 
@@ -59,5 +64,20 @@ def translate_countries(countries: Dict[str, int]) -> Dict[str, int]:
         modified_countries.update(modified)
         for lookup in content:
             if lookup in modified_countries:
+                logger.debug(f"updated country {lookup}")
                 del modified_countries[lookup]
     return modified_countries
+
+
+def extract_css_variables():
+    css_styles = {}
+    variable_pattern = r"\s+-{2}(\w?|-?)+:\s.*;$"
+    app_dir = get_app_dir()
+    css_path = app_dir / "assets" / "style.css"
+    with open(str(css_path)) as css:
+        for line in css.readlines():
+            if re.match(variable_pattern, line):
+                variable, value = re.sub(r"\s|--|;", "", line).split(":")
+                css_styles[variable] = value
+    logger.debug(f"The following CSS variables were identified: {css_styles}")
+    return css_styles

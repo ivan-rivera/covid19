@@ -4,13 +4,10 @@ import numpy as np
 import plotly.graph_objects as go
 
 from covid19.data import filter_infection_data
-from covid19.plots.layout import global_layout, line_style_layout
+from covid19.plots.layout import global_layout, line_style_layout, color_scheme
 from covid19.stats import fit_infection_trend
 from covid19.types import Infections
 from covid19.utils import to_date, translate_countries
-
-
-# todo: review settings and move stuff into configs
 
 
 def plot_infection_curve(infection_data: Infections, kind: str = "confirmed") -> go.Figure:
@@ -42,7 +39,7 @@ def plot_infection_curve(infection_data: Infections, kind: str = "confirmed") ->
                 legendgroup=country,
                 line=line_style_layout,
                 hovertemplate=
-                f"<span style='color:black;font-size:20px'><b>{country}</b></span><br><br>" +
+                f"<span style='color:{color_scheme['background']};font-size:20px'><b>{country}</b></span><br><br>" +
                 "Date: %{x}<br>" +
                 "Cases: %{y:,}" +
                 "<extra></extra>"
@@ -102,7 +99,7 @@ def plot_infection_trends(
                     line=line_style_layout,
                     showlegend=False,
                     hovertemplate=
-                    f"<span style='color:black;font-size:20px'><b>{country}</b></span><br><br>" +
+                    f"<span style='color:{color_scheme['background']};font-size:20px'><b>{country}</b></span><br><br>" +
                     "Date: %{x}<br>" +
                     "Cases: %{y:,}" +
                     "<extra></extra>"
@@ -113,11 +110,11 @@ def plot_infection_trends(
         x=global_days,
         y=trend,
         name="Trend",
-        line={"color": "red", "width": 3},
+        line={"color": color_scheme["alternative"], "width": 3},
         mode="lines",
         showlegend=False,
         hovertemplate=
-        "<span style='color:black;font-size:20px'><b>Trend</b></span><br><br>" +
+        f"<span style='color:{color_scheme['background']};font-size:20px'><b>Trend</b></span><br><br>" +
         "Date: %{x}<br>" +
         "Cases: %{y:,}" +
         "<extra></extra>"
@@ -166,9 +163,10 @@ def plot_infected_countries(infection_data: Infections, kind: str = "confirmed",
         y=cases,
         text=mortality,
         showlegend=False,
-        marker={"color": "darkgray"},
+        marker={"color": color_scheme["main"]},
         hovertemplate=
-        "<span style='color:black;font-size:20px'><b>%{x}</b></span><br><br>" +
+        f"<span style='color:{color_scheme['background']};" +
+        "font-size:20px'><b>%{x}</b></span><br><br>" +
         "Cases: %{y}<br>" +
         "Mortality rate: %{text:.2%}" +
         "<extra></extra>"
@@ -196,7 +194,7 @@ def plot_infection_map(infection_data: Infections, kind: str = "confirmed") -> g
             "visible": False,
             "resolution": 110,
             "showcountries": True,
-            "countrycolor": "darkgrey",
+            "countrycolor": color_scheme["base"],
             "lataxis": {"range": [-55, 80]}
         },
         "dragmode": False,
@@ -217,12 +215,15 @@ def plot_infection_map(infection_data: Infections, kind: str = "confirmed") -> g
         z=np.log10([i+1 for i in infections]),
         text=countries,
         hovertext=infections,
+        hoverlabel={"bgcolor": color_scheme["background"]},
         locationmode="country names",
         showscale=False,
-        colorscale="Greys",
+        colorscale=[color_scheme["base"], color_scheme["main"]],
         hovertemplate=
-        "<span style='color:darkgrey;font-size:20px'><b>%{location}</b></span><br>" +
-        "Cases: %{hovertext:,}" +
+        f"<span style='color:{color_scheme['main']};" +
+        "font-size:20px'><b>%{location}</b></span><br>" +
+        f"<span style='color:{color_scheme['alternative']}'>" +
+        "Cases: %{hovertext:,}</span>" +
         "<extra></extra>"
     )
 

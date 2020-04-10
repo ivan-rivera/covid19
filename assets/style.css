@@ -1,13 +1,18 @@
-@import url('https://fonts.googleapis.com/css?family=Sen:400');
+@import url('https://fonts.googleapis.com/css?family=Amaranth:400');
+
 :root {
-    --bg-colour: #101224;
-    --text-colour: darkgrey;
+    --background: #FFFFFF;
+    --base: #2D3142;
+    --main: #BFC0C0;
+    --highlight: #EF8354;
+    --alternative: #4F5D75;
 }
 
 html, body {
-    font-family: "Sen", serif;
-    background-color: var(--bg-colour);
-    color: var(--text-colour);
+    font-family: "Amaranth", serif;
+    background-color: var(--background);
+    color: var(--base);
+    min-width: 800px;
 }
 p, h6 {
     margin-block-start: 0;
@@ -18,27 +23,33 @@ h6 {
     font-size: 24px;
 }
 
+a {
+    color: var(--alternative);
+}
+
 .top_text {
-    height: 100px;
     display: grid;
     grid-template-columns: 17% 73% 10%;
     vertical-align: middle;
+
 }
 
 .title {
+    margin-top: -0.25em;
     font-size: 38px;
+    color: var(--main);
 }
 
 .desc {
     border-left-width: 2px;
-    /*border-left-color: darkgrey;*/
-    /*border-left-style: solid;*/
-    /*border-right-width: 2px;*/
-    /*border-right-color: darkgrey;*/
-    /*border-right-style: solid;*/
-    font-size: 18px;
-    float: right;
+    font-size: 16px;
     padding-right: 1em;
+    padding-left: 1em;
+}
+
+.stat {
+    color: var(--main);
+    font-size: 22px;
 }
 
 .modebar{
@@ -53,10 +64,10 @@ g.layer.bg > rect {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     border-bottom-width: 2px;
-    border-bottom-color: darkgrey;
+    border-bottom-color: var(--base);
     border-bottom-style: solid;
     border-top-width: 2px;
-    border-top-color: darkgrey;
+    border-top-color: var(--base);
     border-top-style: solid;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
@@ -67,13 +78,15 @@ g.layer.bg > rect {
 .left_side {
     float: left;
     height: 600px;
-    width: 60%;
+    width: 55%;
+    padding-left: 1em;
 }
 
 .right_side {
     float: right;
     height: 600px;
     width: 40%;
+    padding-right: 1em;
 }
 
 #infection_map {
@@ -98,11 +111,11 @@ g.layer.bg > rect {
 }
 
 #selector_title{
-    font-size: 22px;
+    font-size: 18px;
     text-decoration: underline;
     padding-bottom: 0.5em;
 }
 
 #radio_select {
-    font-size: 18px;
+    font-size: 16px;
 }

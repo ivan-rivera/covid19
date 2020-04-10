@@ -1,5 +1,6 @@
 """Dash application"""
 from copy import deepcopy
+from logging import getLogger
 
 import dash
 import dash_core_components as dcc
@@ -28,13 +29,13 @@ from covid19.stats import build_summary_stats
 from covid19.types import Plot
 from covid19.utils import get_app_dir, read_config
 
+logger = getLogger(__name__)
+
 config_file = read_config()
 app_dir = get_app_dir()
 
 with open(str(app_dir / "assets" / "header.md")) as header_file:
     header_md = header_file.read()
-
-radio_button_state = "confirmed"
 
 raw_infection_data = get_infection_data()
 infection_data = filter_infection_data(raw_infection_data)
@@ -73,8 +74,8 @@ app = dash.Dash(__name__, server=server)
 app.title = config_file["title"]
 app.layout = html.Div(children=[
     html.Div(children=[
-        html.P(children=config_file["title"], className="title"),
-        dcc.Markdown(header_md, className="desc"),
+        html.Div([html.P(children=config_file["title"])], className="title"),
+        html.Div([dcc.Markdown(header_md)], className="desc"),
         html.Div(children=[
             html.P("Select metric", id="selector_title"),
             dcc.RadioItems(id="radio_select",
@@ -82,19 +83,19 @@ app.layout = html.Div(children=[
                            options=[
                                {"label": "Cases", "value": "confirmed"},
                                {"label": "Deaths", "value": "deaths"},
-                           ], value=radio_button_state)
+                           ], value="confirmed")
         ], className="select_container"),
     ], className="top_text"),
     html.Div(children=[
-        html.Div([html.H6("Last update"), html.P(summary_data["last update"])],
+        html.Div([html.H6("Last update"), html.P(summary_data["last update"], className="stat")],
                  id="last_update", className="mini_container"),
-        html.Div([html.H6("Global cases"), html.P(summary_data["total cases"])],
+        html.Div([html.H6("Global cases"), html.P(summary_data["total cases"], className="stat")],
                  id="total_cases", className="mini_container"),
-        html.Div([html.H6("Global deaths"), html.P(summary_data["total deaths"])],
+        html.Div([html.H6("Global deaths"), html.P(summary_data["total deaths"], className="stat")],
                  id="total_deaths", className="mini_container"),
-        html.Div([html.H6("Mortality rate"), html.P(summary_data["mortality rate"])],
+        html.Div([html.H6("Mortality rate"), html.P(summary_data["mortality rate"], className="stat")],
                  id="mortality_rate", className="mini_container"),
-        html.Div([html.H6("Growth yesterday"), html.P(summary_data["global growth"])],
+        html.Div([html.H6("Growth yesterday"), html.P(summary_data["global growth"], className="stat")],
                  id="growth_rate", className="mini_container"),
     ], className="stat_panel"),
     html.Div(children=[
@@ -133,13 +134,10 @@ def infection_plot_actions(
         hover_map,
         radio_value,
 ) -> [go.Figure, go.Figure]:
-    global radio_button_state
-    if radio_value != radio_button_state:
-        radio_button_state = radio_value
-        plots.bars = plot_set[radio_value].bars
-        plots.map = plot_set[radio_value].map
-        plots.curve = plot_set[radio_value].curve
-        plots.trend = plot_set[radio_value].trend
+    plots.bars = plot_set[radio_value].bars
+    plots.map = plot_set[radio_value].map
+    plots.curve = plot_set[radio_value].curve
+    plots.trend = plot_set[radio_value].trend
     hover_context = [
         (plots.curve, hover_curve, "lines"),
         (plots.trend, hover_trend, "lines"),
@@ -149,6 +147,7 @@ def infection_plot_actions(
     for figure, _, kind in hover_context:
         callbacks[kind]["reset"](figure)
     if any([h for _, h, _ in hover_context]):
+        logger.debug("highlight action triggered")
         if country := find_selected_country(hover_context):
             for fig, _, kind in hover_context:
                 callbacks[kind]["highlight"](fig, country)
@@ -157,14 +156,9 @@ def infection_plot_actions(
 
 if __name__ == '__main__':
     # TODO:
-    #   - try to speed it up
-    #   - fill country gaps
-    #   - Validate numbers
-    #   - Make it pretty
-    #   - add logger statements
     #   - Refactor
     #   - test cases
-    #   - QA
     #   - Add app to the list of app on https://pomber.github.io/covid19
     PORT = config("PORT", default=8000, cast=int)
+    logger.info(f"Launching the service on port {PORT}")
     app.run_server(debug=False, host="0.0.0.0", port=PORT)
