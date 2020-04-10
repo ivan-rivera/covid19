@@ -26,7 +26,6 @@ def read_config() -> Dict[str, Dict[str, Union[str, int, float]]]:
     Read project configuration file
     :return: A dictionary with configurations
     """
-    # todo: test
     app_dir = get_app_dir()
     config_path = app_dir / "config.yaml"
     with open(str(config_path)) as stream:
@@ -40,7 +39,6 @@ def to_date(date_str: str) -> datetime:
     :param date_str: date string in format Y-m-d
     :return: datetime
     """
-    # todo: test
     return datetime.strptime(date_str, "%Y-%m-%d")
 
 
@@ -51,7 +49,6 @@ def translate_countries(countries: Dict[str, int]) -> Dict[str, int]:
     :param countries: a dictionary with countries and counts
     :return: updated dictionary with countries and counts
     """
-    # todo: test
     app_dir = get_app_dir()
     with open(str(app_dir / "resources" / "country_mappings.json")) as f:
         country_mapping = f.read()
@@ -61,7 +58,8 @@ def translate_countries(countries: Dict[str, int]) -> Dict[str, int]:
         modified = {country: sum([modified_countries[lookup]
                                   for lookup in content
                                   if lookup in modified_countries])}
-        modified_countries.update(modified)
+        if sum(modified.values()) > 0:
+            modified_countries.update(modified)
         for lookup in content:
             if lookup in modified_countries:
                 del modified_countries[lookup]

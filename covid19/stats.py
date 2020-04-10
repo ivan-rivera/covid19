@@ -41,10 +41,10 @@ def build_summary_stats(infection_data: t.Infections) -> t.Summary:
     :param infection_data: a dictionary with infection records
     :return: a dictionary with summary stats
     """
-    last_update = max([datetime.strptime(c, "%Y-%m-%d") for c in _get_cases(infection_data, "date")])
-    cases_yesterday = sum(_get_cases(infection_data, t.InfectionStatus.CONFIRMED.value, 2))
-    cases = sum(_get_cases(infection_data, t.InfectionStatus.CONFIRMED.value))
-    deaths = sum(_get_cases(infection_data, t.InfectionStatus.DEATHS.value))
+    last_update = max([datetime.strptime(c, "%Y-%m-%d") for c in get_cases(infection_data, "date")])
+    cases_yesterday = sum(get_cases(infection_data, t.InfectionStatus.CONFIRMED.value, 2))
+    cases = sum(get_cases(infection_data, t.InfectionStatus.CONFIRMED.value))
+    deaths = sum(get_cases(infection_data, t.InfectionStatus.DEATHS.value))
     return t.Summary(
         last_update=t.SummaryDate(title="Last update", value=last_update),
         total_cases=t.SummaryCount(title="Global cases", value=cases),
@@ -54,9 +54,9 @@ def build_summary_stats(infection_data: t.Infections) -> t.Summary:
     )
 
 
-def _get_cases(infection_data: t.Infections,
-               kind_str: str,
-               lag: int = 1) -> List[Union[str, int, float]]:
+def get_cases(infection_data: t.Infections,
+              kind_str: str,
+              lag: int = 1) -> List[Union[str, int, float]]:
     """
     A support function that is used to extract a particular statistic per country
     for a given relative date
@@ -65,7 +65,6 @@ def _get_cases(infection_data: t.Infections,
     :param lag: how many days back from the most recent time to go (1 is latest date)
     :return: a list of kind values of each country
     """
-    # todo: test
     return [i[-lag][kind_str]
             for i in infection_data.values()
             if len(i) >= lag]

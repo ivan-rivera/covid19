@@ -31,22 +31,21 @@ def get_infection_data() -> Infections:
 def filter_infection_data(
         infection_data: Infections,
         kind: InfectionStatus = InfectionStatus.CONFIRMED,
-        min_confirmed: int = 100,
+        min_cases: int = 100,
         min_date: datetime = datetime(2020, 1, 1)
 ) -> Infections:
     """
     Retrieve a subset of infection data filtered by the number of confirmed cases and minimum date
     :param infection_data: dictionary with infection records
     :param kind: either confirmed or deaths
-    :param min_confirmed: min. number of confirmed cases per country for it to be included into the dataset
+    :param min_cases: min. number of confirmed cases per country for it to be included into the dataset
     :param min_date: first date to be included into the data
     :return: filtered infection data
     """
-    # todo: test
     filtered_countries = {
         country: [day for day in content
                   if to_date(day["date"]) >= min_date
-                  and day[kind.value] >= min_confirmed]
+                  and day[kind.value] >= min_cases]
         for country, content in infection_data.items()}
     return {country: content for country, content
             in filtered_countries.items() if content}
