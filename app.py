@@ -110,9 +110,6 @@ def infection_plot_actions(hover_curve, hover_trend, hover_bars,
 
 
 if __name__ == '__main__':
-    # TODO:
-    #   - test cases
-    #   - Add app to the list of app on https://pomber.github.io/covid19
     PORT = config("PORT", default=8000, cast=int)
     logger.info(f"Launching the service on port {PORT}")
     app.run_server(debug=False, host="0.0.0.0", port=PORT)
