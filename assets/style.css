@@ -28,6 +28,13 @@ a {
     color: var(--alternative);
 }
 
+.dash_container {
+    position: fixed;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
 .top_text {
     display: grid;
     grid-template-columns: 17% 73% 10%;

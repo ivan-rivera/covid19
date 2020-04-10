@@ -88,7 +88,7 @@ app.layout = html.Div(children=[
             dcc.Graph(figure=plots.trend.figure, id=plots.trend.id_str, clear_on_unhover=True),
         ], className="right_side"),
     ], className="infection_graphs")
-])
+], className="dash_container")
 
 fig_outputs, fig_inputs = generate_callback_params()
 
