@@ -1,3 +1,11 @@
 title: COVID-19 Monitor
 endpoints:
   infections: https://pomber.github.io/covid19/timeseries.json
+exclude:
+  trend:
+    - China
+    - Diamond Princess
+  trace:
+    - Trend
+anchor:
+  Italy

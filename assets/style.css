@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Amaranth:400');
+@import url('https://fonts.googleapis.com/css?family=Sen:400');
 
 :root {
     --background: #FFFFFF;
@@ -6,10 +6,11 @@
     --main: #BFC0C0;
     --highlight: #EF8354;
     --alternative: #4F5D75;
+    --font: "Sen"
 }
 
 html, body {
-    font-family: "Amaranth", serif;
+    font-family: var(--font), serif;
     background-color: var(--background);
     color: var(--base);
     min-width: 800px;

@@ -7,7 +7,7 @@ from datetime import datetime
 import requests
 from cachetools.func import ttl_cache
 
-from covid19.types import Infections
+from covid19.types import Infections, InfectionStatus
 from covid19.utils import read_config, to_date
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ def get_infection_data() -> Infections:
 
 def filter_infection_data(
         infection_data: Infections,
-        kind: str = "confirmed",
+        kind: InfectionStatus = InfectionStatus.CONFIRMED,
         min_confirmed: int = 100,
         min_date: datetime = datetime(2020, 1, 1)
 ) -> Infections:
@@ -42,10 +42,11 @@ def filter_infection_data(
     :param min_date: first date to be included into the data
     :return: filtered infection data
     """
+    # todo: test
     filtered_countries = {
         country: [day for day in content
                   if to_date(day["date"]) >= min_date
-                  and day[kind] >= min_confirmed]
+                  and day[kind.value] >= min_confirmed]
         for country, content in infection_data.items()}
     return {country: content for country, content
             in filtered_countries.items() if content}
