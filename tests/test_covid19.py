@@ -19,8 +19,8 @@ def test_read_config():
 def test_get_infection_data():
     infection_data = get_infection_data()
     first_country = list(infection_data.keys())[0]
-    latest_entry_date = infection_data[first_country][-1]["date"]
-    max_date = max([entry["date"] for entry in infection_data[first_country]])
+    latest_entry_date = to_date(infection_data[first_country][-1]["date"])
+    max_date = max([to_date(entry["date"]) for entry in infection_data[first_country]])
     assert max_date == latest_entry_date, "dates in infection data are not sorted"
 
 
