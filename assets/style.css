@@ -50,7 +50,7 @@ a {
 
 .desc {
     border-left-width: 2px;
-    font-size: 16px;
+    font-size: 15px;
     padding-right: 1em;
     padding-left: 1em;
 }
@@ -78,8 +78,8 @@ g.layer.bg > rect {
 
 .stat_panel {
     width: 100%;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    /*padding-top: 1%;*/
+    /*padding-bottom: 1%;*/
     display: inline-block;
     grid-template-columns: repeat(5, 1fr);
     border-bottom-width: 2px;
@@ -88,8 +88,8 @@ g.layer.bg > rect {
     border-top-width: 2px;
     border-top-color: var(--base);
     border-top-style: solid;
-    /*padding-top: 0.5em;*/
-    /*padding-bottom: 0.5em;*/
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     text-align: center;
 }
 
