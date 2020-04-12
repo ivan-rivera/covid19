@@ -84,7 +84,6 @@ bar_hover_template = (
     f"<span style='color:{styles.default.background_color};" +
     "font-size:20px'><b>%{x}</b></span><br><br>" +
     "Cases: %{y}<br>" +
-    "Mortality rate: %{text:.2%}" +
     "<extra></extra>"
 )
 

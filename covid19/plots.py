@@ -115,10 +115,8 @@ def plot_infected_countries(
     top_countries = dict(sort_countries(latest_data, False)[0:top_n])
     sorted_countries = dict(sort_countries(top_countries))
     cases = [v[kind] for v in sorted_countries.values()]
-    mortality = [v[InfectionStatus.DEATHS]/v[InfectionStatus.CONFIRMED]
-                 for v in sorted_countries.values()]
     countries = list(sorted_countries.keys())
-    bar = go.Bar(x=countries, y=cases, text=mortality, showlegend=False,
+    bar = go.Bar(x=countries, y=cases, showlegend=False,
                  marker={"color": layout.styles.default.color},
                  hovertemplate=layout.bar_hover_template)
     figure = go.Figure()
