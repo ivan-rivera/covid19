@@ -49,7 +49,6 @@ def build_summary_stats(infection_data: t.Infections) -> t.Summary:
         last_update=t.SummaryDate(title="Last update", value=last_update),
         total_cases=t.SummaryCount(title="Global cases", value=cases),
         total_deaths=t.SummaryCount(title="Global deaths", value=deaths),
-        mortality_rate=t.SummaryPercentage(title="Mortality rate", value=deaths/cases),
         global_growth=t.SummaryPercentage(title="Latest growth", value=cases/cases_yesterday-1),
     )
 

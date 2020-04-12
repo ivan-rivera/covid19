@@ -56,7 +56,6 @@ class Summary:
     last_update: SummaryDate
     total_cases: SummaryCount
     total_deaths: SummaryCount
-    mortality_rate: SummaryPercentage
     global_growth: SummaryPercentage
 
 

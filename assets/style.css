@@ -81,7 +81,7 @@ g.layer.bg > rect {
     /*padding-top: 1%;*/
     /*padding-bottom: 1%;*/
     display: inline-block;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     border-bottom-width: 2px;
     border-bottom-color: var(--base);
     border-bottom-style: solid;
